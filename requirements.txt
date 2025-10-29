@@ -1,0 +1,11 @@
+asgiref==3.8.1
+Django==5.1.1
+django-extensions==3.2.3
+django-silk==5.4.3
+djangorestframework==3.15.2
+djangorestframework_simplejwt==5.5.1
+gprof2dot==2025.4.14
+pillow==10.4.0
+PyJWT==2.10.1
+sqlparse==0.5.1
+tzdata==2024.2
