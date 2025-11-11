@@ -1,19 +1,44 @@
+# @name login
+POST http://localhost:8000/api/token/ HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "john-doe",
+  "password": "john"
+}
+
+###
+
+@refresh = {{login.response.body.refresh}}
+
+# @name access_token
+POST http://localhost:8000/api/token/refresh/ HTTP/1.1
+Content-Type: application/json
+
+{
+  "refresh": "{{refresh}}"
+}
+
+###
+
+@access = {{access_token.response.body.access}}
+
 GET http://localhost:8000/products/ HTTP/1.1
 
 ###
 
-GET http://localhost:8000/products/2/ HTTP/1.1
+GET http://localhost:8000/products/7/ HTTP/1.1
 
 ###
 
 DELETE  http://localhost:8000/products/2/ HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYxMjg3MzUzLCJpYXQiOjE3NjEyODcwNTMsImp0aSI6ImQzZWNkZTk2YTgwNTRhMjE4YTU5NWI4NGNjOGY1YmNjIiwidXNlcl9pZCI6IjEifQ.c_dS8E-V95VS2cCYdd4WKmD_Tg5qCUMKjJrWAEHZLZg
+Authorization: Bearer {{access}}
 
 ###
 
 PUT http://localhost:8000/products/2/ HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYxMjg3MzUzLCJpYXQiOjE3NjEyODcwNTMsImp0aSI6ImQzZWNkZTk2YTgwNTRhMjE4YTU5NWI4NGNjOGY1YmNjIiwidXNlcl9pZCI6IjEifQ.c_dS8E-V95VS2cCYdd4WKmD_Tg5qCUMKjJrWAEHZLZg
+Authorization: Bearer {{access}}
 
 {
   "name": "Television",
@@ -26,7 +51,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 POST http://localhost:8000/products/ HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYxMzIyNzk0LCJpYXQiOjE3NjEzMjI0OTQsImp0aSI6IjdhYjFhZDBhYjU4MDQ5OWY4MjQ1Mjg3MmYyZDg5MTQzIiwidXNlcl9pZCI6IjEifQ.oSzbl4uG2oTxEX5ayAdxslJykD-vrT8dxT0p0TA1OeI
+Authorization: Bearer {{access}}
 
 {
   "name": "refreshing Token Authenticated Product",
@@ -37,49 +62,34 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 ###
 
-POST http://localhost:8000/api/token/ HTTP/1.1
-Content-Type: application/json
-
-{
-  "username": "john-doe",
-  "password": "john"
-}
-
-###
-POST http://localhost:8000/api/token/refresh/ HTTP/1.1
-Content-Type: application/json
-
-{
-  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc2MTgwMjM3NiwiaWF0IjoxNzYxNzE1OTc2LCJqdGkiOiI4YTAwYjMyY2U4ODY0Njg3ODQzMGNlMjdjY2ZmZWNlMyIsInVzZXJfaWQiOiIyIn0.LsvwpZInTIjr6KgM9rl5ylFaIAn3BZ2d0OwqcZkDTow"
-}
-
-###
-
 GET http://localhost:8000/orders/?created_at=2025-10-17 HTTP/1.1
 
 ###
-
 GET http://localhost:8000/orders/ HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYxNzE3NjQzLCJpYXQiOjE3NjE3MTczNDQsImp0aSI6IjhkNzg5MGQ3NTIwYzRiOWI4YzVjNjcxOTY4YjBlM2E0IiwidXNlcl9pZCI6IjIifQ.IoISzcjjqtGumreWWc78CUsNAHepqaaZqNJRsKSJruI
+Authorization: Bearer {{access}}
 
 
 ###
 
 POST  http://localhost:8000/orders/ HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYxNzE3OTk1LCJpYXQiOjE3NjE3MTc2OTUsImp0aSI6IjI4MTkxZGZlYTA3MTQxNmRhNDc5OWVmMTRiMWI3MTkwIiwidXNlcl9pZCI6IjIifQ.Mn8QvDlaIO-QQ98faxKkn9uQYLgckNrdogBzVdVjiHk
+Authorization: Bearer {{access}}
 
 {
-  "status": "Pending",
-  "user": 2,
+  "status": "Confirmed",
   "items": [
     {
-      "product": 3,
-      "quantity": 2
+      "product": 5,
+      "quantity": 20
     },
     {
       "product": 5,
-      "quantity": 1
+      "quantity": 10
     }
   ]
 }
+
+###
+
+DELETE  http://localhost:8000/orders/4a7593f4-043d-45ff-9b12-32279d5a16c6/ HTTP/1.1
+Authorization: Bearer {{access}}
